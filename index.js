@@ -3,9 +3,11 @@ var user = {};
 
 function addLine(dataUser){
 
+    console.log(dataUser);
+
     var tr = document.createElement('tr');
 
-    tr.innerHTML = `
+    document.getElementById('table-users').innerHTML = `
     <tr>
         <td><img src="dist/img/user1-128x128.jpg" alt="User Image" class="img-circle img-sm"></td>
         <td>${dataUser.name}</td>
@@ -20,30 +22,5 @@ function addLine(dataUser){
                   
     `;
 
-    document.getElementById('table-users').appendChild(tr);
-
 }
 
-document.getElementById('form-user-create').addEventListener('submit', function(event){
-
-    event.preventDefault();
-
-    fields.forEach(function(field, index){
-
-        if(field.name == 'gender'){
-    
-            if (field.checked){
-            user.gender
-        }
-    
-        } else {
-    
-            user[field.name] = field.value;
-    
-        }
-    
-    });
-    
-    addLine(user);
-
-});
