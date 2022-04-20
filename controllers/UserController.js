@@ -1,9 +1,10 @@
 class UserController {
 
-    constructor(formId){
+    constructor(formId, tableId){
 
         this.formEl = document.getElementById(formId);
-
+        this.tableEl = document.getElementById(tableId);
+        this.onSubmit();
     }
 
     onSubmit(){
@@ -12,23 +13,56 @@ class UserController {
         this.formEl.addEventListener('submit', event => {
 
             event.preventDefault();
-        
-            this.getValues();
+
+            let values = this.getValues();
+
+            this.getPhoto((content) => {
+
+                values.photo = content;
+
+                this.addLine(values);
+
+            });
 
         });   
 
     }
 
+    getPhoto(callback){
+
+        let fileReader = new FileReader();
+
+        let elements = [...this.formEl.elements].filter(item=>{
+
+            if (item.name === 'photo') {
+                return item;
+            }
+
+        });
+
+        let file = elements[0].files[0];
+
+        fileReader.onload = () =>{
+
+   
+            callback(fileReader.result);
+
+        };
+
+        fileReader.readAsDataURL(file);
+
+    };
+
     getValues(){
 
         let user = {};
 
-        this.formEl.elements.forEach(function(field, index){
+        [...this.formEl.elements].forEach(function(field, index){
 
             if(field.name == 'gender') {
         
                 if (field.checked){
-                user.gender
+                    user[field.name] = field.value;
             }
         
             } else {
@@ -55,13 +89,9 @@ class UserController {
 
     addLine(dataUser){
 
-        console.log(dataUser);
-    
-        var tr = document.createElement('tr');
-    
-        document.getElementById('table-users').innerHTML = `
+        this.tableEl.innerHTML = `
         <tr>
-            <td><img src="dist/img/user1-128x128.jpg" alt="User Image" class="img-circle img-sm"></td>
+            <td><img src="${dataUser.photo}" alt="User Image" class="img-circle img-sm"></td>
             <td>${dataUser.name}</td>
             <td>${dataUser.email}</td>
             <td>${dataUser.admin}</td>
@@ -70,8 +100,7 @@ class UserController {
                         <button type="button" class="btn btn-primary btn-xs btn-flat">Editar</button>
                         <button type="button" class="btn btn-danger btn-xs btn-flat">Excluir</button>
                 </td>
-            </tr>
-                      
+            </tr>                      
         `;
     
     }
