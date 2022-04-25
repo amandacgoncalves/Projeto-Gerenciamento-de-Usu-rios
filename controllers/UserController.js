@@ -156,7 +156,7 @@ class UserController {
                 </td>                     
         `;
 
-        this.tableEl.appendChild (tr);
+        this.tableEl.appendChild(tr);
 
         this.updateCount();
     
@@ -177,8 +177,8 @@ class UserController {
                 if (user._admin) numberAdmin++;
         });
 
-        document.querySelector('#number-users').innerHTML = numberUsers;
-        document.querySelector('#number-users-admin').innerHTML = numberAdmin;
+        document.querySelector("#number-users").innerHTML = numberUsers;
+        document.querySelector("#number-users-admin").innerHTML = numberAdmin;
 
     }
 
