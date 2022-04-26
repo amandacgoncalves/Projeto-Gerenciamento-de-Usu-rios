@@ -6,11 +6,11 @@ class UserController {
         this.formUpdateEl = document.getElementById(formIdUpdate);
         this.tableEl = document.getElementById(tableId);
         this.onSubmit();
-        this.onEditCancel();
+        this.onEdit();
         this.selectAll();
     }
 
-    onEditCancel(){
+    onEdit(){
 
         document.querySelector('#box-user-update .btn-cancel').addEventListener('click', e=>{
 
@@ -50,16 +50,17 @@ class UserController {
 
                 user.loadFromJSON(result);
 
-            this.getTr(user, tr);
-    
-            this.updateCount();
-    
+                user.save();
 
-            this.formUpdateEl.reset();
+                this.getTr(user, tr);
+        
+                this.updateCount();
+        
+                this.formUpdateEl.reset();
 
-            btn.disabled = false;
+                btn.disabled = false;
 
-            this.showPanelCreate();
+                this.showPanelCreate();
 
             }, 
             (e)=> {
@@ -93,7 +94,7 @@ class UserController {
 
                 values.photo = content;
 
-                this.insert(values);
+                values.save();
 
                 this.addLine(values);
 
@@ -235,18 +236,6 @@ class UserController {
 
         });
 
-
-    }
-
-    insert(data){
-
-        let users = this.getUsersStorage();
-
-        users.push(data);
-
-        localStorage.setItem('users', JSON.stringify(users));
-        //sessionStorage.setItem('users', JSON.stringify(users));
-        //session storage guarda informação na página, se fechar apaga tudo.
 
     }
 
